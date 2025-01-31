@@ -7,7 +7,6 @@ import AnimatedSVG from "./AnimatedSVG"
 import CornerText from "./CornerText"
 import ParallaxBackground from "./ParallaxBackground"
 import ParticleAnimation from "./ParticleAnimation"
-import { MorphingText } from "./MorphingText"
 import { cn } from "@/lib/utils"
 import ScrollIndicator from "./ScrollIndicator"
 import React from "react"
@@ -17,13 +16,6 @@ const Hero = React.memo(function Hero() {
   const y = useTransform(scrollYProgress, [0, 1], ["0%", "50%"])
   const opacity = useTransform(scrollYProgress, [0, 0.5], [1, 0])
 
-  const morphingTexts = [
-    "Transforming Businesses",
-    "Innovating Solutions",
-    "Driving Growth",
-    "Empowering Success",
-    "Global Reach, Local Touch",
-  ]
 
   return (
     <section

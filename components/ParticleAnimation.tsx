@@ -40,8 +40,8 @@ export default function ParticleAnimation({ className }: ParticleAnimationProps)
       color: string
 
       constructor() {
-        this.x = (Math.random() * canvas.width) / dpr
-        this.y = (Math.random() * canvas.height) / dpr
+        this.x = (Math.random() * (canvas?.width || 0)) / dpr
+        this.y = (Math.random() * (canvas?.height || 0)) / dpr
         this.radius = particleBaseRadius + Math.random() * particleVariance
         this.baseX = this.x
         this.baseY = this.y
@@ -62,6 +62,7 @@ export default function ParticleAnimation({ className }: ParticleAnimationProps)
       }
 
       draw() {
+        if (!ctx) return
         ctx.beginPath()
         ctx.arc(this.x, this.y, this.radius, 0, Math.PI * 2)
         ctx.fillStyle = this.color
@@ -76,11 +77,15 @@ export default function ParticleAnimation({ className }: ParticleAnimationProps)
     }
 
     function animate() {
-      ctx.clearRect(0, 0, canvas.width / dpr, canvas.height / dpr)
-      particles.forEach((particle) => {
-        particle.update()
-        particle.draw()
-      })
+      if (ctx) {
+        if (canvas) {
+          ctx.clearRect(0, 0, canvas.width / dpr, canvas.height / dpr)
+          particles.forEach((particle) => {
+            particle.update()
+            particle.draw()
+          })
+        }
+      }
       requestAnimationFrame(animate)
     }
 

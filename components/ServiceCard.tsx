@@ -5,20 +5,22 @@ interface ServiceCardProps {
   service: {
     title: string
     description: string
-    icon: React.ReactNode
+    icon: React.ElementType
   }
   index: number
 }
 
 const ServiceCard: React.FC<ServiceCardProps> = ({ service, index }) => {
+  const Icon = service.icon
+
   return (
     <motion.div
-      className="bg-white p-6 rounded-lg shadow-md hover:shadow-xl transition-shadow duration-300 ease-in-out cursor-pointer group"
+      className="bg-white p-6 rounded-lg shadow-md hover:shadow-xl transition-all duration-300 ease-in-out cursor-pointer group"
       initial={{ opacity: 0, y: 50 }}
       animate={{ opacity: 1, y: 0 }}
       transition={{ duration: 0.5, delay: index * 0.1 }}
     >
-      <div className="mb-4 text-gray-500 group-hover:text-blue-500 transition-colors duration-300">{service.icon}</div>
+      <Icon className="w-10 h-10 mb-4 text-gray-500 group-hover:text-blue-500 transition-colors duration-300" />
       <h3 className="text-xl font-semibold mb-2 text-gray-800 group-hover:text-blue-600 transition-colors duration-300">
         {service.title}
       </h3>

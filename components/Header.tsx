@@ -6,7 +6,7 @@ import React, { useEffect, useState } from "react"
 
 const Header = React.memo(function Header() {
   const { scrollY } = useScroll()
-  const [isLightBackground, setIsLightBackground] = useState(false)
+  const [, setIsLightBackground] = useState(false)
 
   // Transform opacity based on scroll position
   const backgroundColor = useTransform(scrollY, [0, 100], ["rgba(0, 0, 0, 0)", "rgba(255, 255, 255, 1)"])
