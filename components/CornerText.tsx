@@ -17,7 +17,7 @@ export default function CornerText({ position, text }: CornerTextProps) {
 
   return (
     <motion.div
-      className={`absolute ${positionClasses[position]} text-xs sm:text-sm tracking-wider font-medium pt-10 text-black`}
+      className={`absolute ${positionClasses[position]} text-xs sm:text-sm tracking-wider font-medium text-black`}
       initial={{ opacity: 0, y: position.includes("top") ? -20 : 20 }}
       animate={{ opacity: 1, y: 0 }}
       transition={{ delay: 1.2, duration: 0.8 }}
