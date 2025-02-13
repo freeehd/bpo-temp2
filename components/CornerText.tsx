@@ -9,8 +9,8 @@ interface CornerTextProps {
 
 export default function CornerText({ position, text }: CornerTextProps) {
   const positionClasses = {
-    "top-left": "top-6 left-6",
-    "top-right": "top-6 right-6",
+    "top-left": "top-14 left-6",
+    "top-right": "top-14 right-6",
     "bottom-left": "bottom-6 left-6",
     "bottom-right": "bottom-6 right-6",
   }

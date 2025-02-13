@@ -6,7 +6,7 @@ import React, { useEffect, useState } from "react"
 
 const Header = React.memo(function Header() {
   const { scrollY } = useScroll()
-  const [, setIsLightBackground] = useState(false)
+  const [isLightBackground, setIsLightBackground] = useState(false)
 
   // Transform opacity based on scroll position
   const backgroundColor = useTransform(scrollY, [0, 100], ["rgba(0, 0, 0, 0)", "rgba(255, 255, 255, 1)"])
@@ -43,17 +43,28 @@ const Header = React.memo(function Header() {
         animate={{ opacity: 1 }}
         transition={{ delay: 0.3, duration: 0.8 }}
       >
-        BPOhub
+        <Link href="/">BPOhub</Link>
       </motion.div>
-      <Link href="#contact" passHref>
-        <motion.a
-          className={`text-sm sm:text-lg font-medium focus:outline-none focus:ring-2 focus:ring-opacity-50 rounded-md transition-colors text-black`}
-          whileHover={{ scale: 1.05 }}
-          whileTap={{ scale: 0.95 }}
-        >
-          CONTACT
-        </motion.a>
-      </Link>
+      <nav className="flex items-center space-x-4">
+        <Link href="/about" passHref>
+          <motion.a
+            className={`text-sm sm:text-lg font-medium focus:outline-none focus:ring-2 focus:ring-opacity-50 rounded-md transition-colors text-black`}
+            whileHover={{ scale: 1.05 }}
+            whileTap={{ scale: 0.95 }}
+          >
+            About
+          </motion.a>
+        </Link>
+        <Link href="#contact" passHref>
+          <motion.a
+            className={`text-sm sm:text-lg font-medium focus:outline-none focus:ring-2 focus:ring-opacity-50 rounded-md transition-colors text-black`}
+            whileHover={{ scale: 1.05 }}
+            whileTap={{ scale: 0.95 }}
+          >
+            Contact
+          </motion.a>
+        </Link>
+      </nav>
     </motion.header>
   )
 })

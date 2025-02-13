@@ -27,6 +27,7 @@ const satoshi = localFont({
 export const metadata: Metadata = {
   title: "BPOhub",
   description: "Where Business Meets Innovation",
+    generator: 'v0.dev'
 }
 
 export default function RootLayout({
@@ -41,3 +42,6 @@ export default function RootLayout({
   )
 }
 
+
+
+import './globals.css'

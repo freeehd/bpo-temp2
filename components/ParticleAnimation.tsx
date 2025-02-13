@@ -40,13 +40,14 @@ export default function ParticleAnimation({ className }: ParticleAnimationProps)
       color: string
 
       constructor() {
-        this.x = (Math.random() * (canvas?.width || 0)) / dpr
-        this.y = (Math.random() * (canvas?.height || 0)) / dpr
+        // Ensure canvas is not null before accessing its properties
+        this.x = (Math.random() * (canvas?.width ?? 0)) / dpr
+        this.y = (Math.random() * (canvas?.height ?? 0)) / dpr
         this.radius = particleBaseRadius + Math.random() * particleVariance
         this.baseX = this.x
         this.baseY = this.y
         this.density = Math.random() * 30 + 1
-        this.color = ["#000000", "#FFA500", "#FFD700"][Math.floor(Math.random() * 3)]
+        this.color = ["#FF4500", "#FFA500", "#FFD700"][Math.floor(Math.random() * 3)]
       }
 
       update() {
@@ -62,7 +63,7 @@ export default function ParticleAnimation({ className }: ParticleAnimationProps)
       }
 
       draw() {
-        if (!ctx) return
+        if (!ctx) return // Explicit check to ensure ctx is not null
         ctx.beginPath()
         ctx.arc(this.x, this.y, this.radius, 0, Math.PI * 2)
         ctx.fillStyle = this.color
@@ -77,15 +78,13 @@ export default function ParticleAnimation({ className }: ParticleAnimationProps)
     }
 
     function animate() {
-      if (ctx) {
-        if (canvas) {
-          ctx.clearRect(0, 0, canvas.width / dpr, canvas.height / dpr)
-          particles.forEach((particle) => {
-            particle.update()
-            particle.draw()
-          })
-        }
-      }
+      if (!ctx || !canvas) return
+
+      ctx.clearRect(0, 0, canvas.width / dpr, canvas.height / dpr)
+      particles.forEach((particle) => {
+        particle.update()
+        particle.draw()
+      })
       requestAnimationFrame(animate)
     }
 
@@ -97,11 +96,10 @@ export default function ParticleAnimation({ className }: ParticleAnimationProps)
   }, [])
 
   return (
-    <canvas
-      ref={canvasRef}
-      className={cn("fixed inset-0 pointer-events-none", className)}
-      style={{ width: "100%", height: "100%" }}
-    />
+      <canvas
+          ref={canvasRef}
+          className={cn("fixed inset-0 pointer-events-none", className)}
+          style={{ width: "100%", height: "100%" }}
+      />
   )
 }
-
