@@ -1,27 +1,35 @@
 "use client"
 
-import { useEffect, useRef } from "react"
+import { useEffect, useLayoutEffect, useRef, useState } from "react"
 import { cn } from "@/lib/utils"
 
 interface ParticleAnimationProps {
   className?: string
 }
 
+const useIsomorphicLayoutEffect = typeof window !== "undefined" ? useLayoutEffect : useEffect
+
 export default function ParticleAnimation({ className }: ParticleAnimationProps) {
   const canvasRef = useRef<HTMLCanvasElement>(null)
+  const [isMounted, setIsMounted] = useState(false)
 
   useEffect(() => {
-    const canvas = canvasRef.current
-    if (!canvas) return
+    setIsMounted(true)
+  }, [])
 
+  useIsomorphicLayoutEffect(() => {
+    if (!canvasRef.current) return
+
+    const canvas = canvasRef.current
     const ctx = canvas.getContext("2d")
     if (!ctx) return
+    const safeCtx = ctx // Create a non-null assertion for TypeScript
 
     const dpr = window.devicePixelRatio || 1
     const updateCanvasSize = () => {
       canvas.width = window.innerWidth * dpr
       canvas.height = window.innerHeight * dpr
-      ctx.scale(dpr, dpr)
+      safeCtx.scale(dpr, dpr)
     }
     updateCanvasSize()
 
@@ -40,9 +48,8 @@ export default function ParticleAnimation({ className }: ParticleAnimationProps)
       color: string
 
       constructor() {
-        // Ensure canvas is not null before accessing its properties
-        this.x = (Math.random() * (canvas?.width ?? 0)) / dpr
-        this.y = (Math.random() * (canvas?.height ?? 0)) / dpr
+        this.x = (Math.random() * canvas.width) / dpr
+        this.y = (Math.random() * canvas.height) / dpr
         this.radius = particleBaseRadius + Math.random() * particleVariance
         this.baseX = this.x
         this.baseY = this.y
@@ -63,11 +70,10 @@ export default function ParticleAnimation({ className }: ParticleAnimationProps)
       }
 
       draw() {
-        if (!ctx) return // Explicit check to ensure ctx is not null
-        ctx.beginPath()
-        ctx.arc(this.x, this.y, this.radius, 0, Math.PI * 2)
-        ctx.fillStyle = this.color
-        ctx.fill()
+        safeCtx.beginPath()
+        safeCtx.arc(this.x, this.y, this.radius, 0, Math.PI * 2)
+        safeCtx.fillStyle = this.color
+        safeCtx.fill()
       }
     }
 
@@ -78,9 +84,7 @@ export default function ParticleAnimation({ className }: ParticleAnimationProps)
     }
 
     function animate() {
-      if (!ctx || !canvas) return
-
-      ctx.clearRect(0, 0, canvas.width / dpr, canvas.height / dpr)
+      safeCtx.clearRect(0, 0, canvas.width / dpr, canvas.height / dpr)
       particles.forEach((particle) => {
         particle.update()
         particle.draw()
@@ -95,11 +99,12 @@ export default function ParticleAnimation({ className }: ParticleAnimationProps)
     return () => window.removeEventListener("resize", updateCanvasSize)
   }, [])
 
-  return (
+  return isMounted ? (
       <canvas
           ref={canvasRef}
           className={cn("fixed inset-0 pointer-events-none", className)}
           style={{ width: "100%", height: "100%" }}
       />
-  )
+  ) : null
 }
+

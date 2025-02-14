@@ -17,32 +17,32 @@ const Hero = React.memo(function Hero() {
   const opacity = useTransform(scrollYProgress, [0, 0.5], [1, 0])
 
   return (
-    <section
-      className={cn("relative min-h-screen bg-[#FF8C5A] text-black overflow-hidden font-sans")}
-      aria-label="Hero section"
-    >
-      <ParallaxBackground />
-      <ParticleAnimation />
-      <Header />
-
-      <motion.div className={cn("relative w-full h-screen flex items-center justify-center")} style={{ y, opacity }}>
-        <AnimatedSVG />
-        <CircularText />
-      </motion.div>
-      <CornerText position="top-left" text="INNOVATE • TRANSFORM • GROW" />
-      <CornerText position="top-right" text="24/7 GLOBAL SUPPORT" />
-      <motion.div
-        className={cn(
-          "absolute bottom-16 left-0 right-0 flex justify-center items-center text-sm font-medium text-black",
-        )}
-        initial={{ opacity: 0, y: 20 }}
-        animate={{ opacity: 1, y: 0 }}
-        transition={{ delay: 1.5, duration: 0.8 }}
+      <section
+          className={cn("relative min-h-screen bg-[#FF8C5A] text-black overflow-hidden font-sans")}
+          aria-label="Hero section"
       >
-        <div className="max-w-xs text-center">Keep scrolling for the good stuff.</div>
-      </motion.div>
-      <ScrollIndicator />
-    </section>
+        <ParallaxBackground />
+        <ParticleAnimation />
+        <Header />
+
+        <motion.div className={cn("relative w-full h-screen flex items-center justify-center")} style={{ y, opacity }}>
+          <AnimatedSVG />
+          <CircularText />
+        </motion.div>
+        <CornerText position="top-left" text="INNOVATE • TRANSFORM • GROW" />
+        <CornerText position="top-right" text="24/7 GLOBAL SUPPORT" />
+        <motion.div
+            className={cn(
+                "absolute bottom-16 left-0 right-0 flex justify-center items-center text-sm font-medium text-black",
+            )}
+            initial={{ opacity: 0, y: 20 }}
+            animate={{ opacity: 1, y: 0 }}
+            transition={{ delay: 1.5, duration: 0.8 }}
+        >
+          <div className="max-w-xs text-center">Keep scrolling for the good stuff.</div>
+        </motion.div>
+        <ScrollIndicator />
+      </section>
   )
 })
 
